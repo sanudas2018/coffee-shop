@@ -1,4 +1,6 @@
 import React from "react";
+import Swal from 'sweetalert2';
+
 
 const AddCoffee = () => {
   const handleAddCoffee = (event) => {
@@ -29,8 +31,13 @@ const AddCoffee = () => {
         console.log("inside post response", data);
         // data insert হবা র পরে এই alert টি দি বে ।
         if (data.insertedId) {
-          alert("users added successfully");
-          // form.reset();
+          Swal.fire({
+            title: 'Success!',
+            text: 'Add Successfly New Coffee',
+            icon: 'success',
+            confirmButtonText: 'Close'
+          })
+          form.reset();
         }
       });
   };
