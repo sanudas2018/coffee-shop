@@ -9,12 +9,13 @@ import {
 } from "react-router-dom";
 import AddCoffee from './Components/AddCoffee.jsx';
 import UpdateCoffee from './Components/UpdateCoffee.jsx';
-import AllCoffeeItem from './Components/AllCoffeeItem.jsx';
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element:  <App />,
+    loader: () => fetch('http://localhost:5000/all-coffee')
   },
   {
     path: "/addcoffee",
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/all-coffee-item",
-    element: <AllCoffeeItem></AllCoffeeItem> ,
+    // element: <SingleCoffCard></SingleCoffCard> ,
   },
   {
     path: "/updateCoffee",

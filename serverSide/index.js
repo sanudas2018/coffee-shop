@@ -43,6 +43,14 @@ async function run() {
 
 
     // STEP: 2(Get);
+    app.get('/all-coffee', async(req, res)=>{
+      const cursor = userCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+      });
+
+
+
     // STEP: 3(Update);
     // STEP: 4(Delete);
 
