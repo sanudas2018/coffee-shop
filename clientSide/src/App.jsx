@@ -5,7 +5,7 @@ import SingleCoffCard from "./Components/SingleCoffCard";
 function App() {
   // All Data Loader
   const loadeCoffees = useLoaderData();
-
+ 
   return (
     <>
       <h1>Coffee House</h1>

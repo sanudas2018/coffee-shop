@@ -27,8 +27,9 @@ const router = createBrowserRouter([
     // element: <SingleCoffCard></SingleCoffCard> ,
   },
   {
-    path: "/updateCoffee",
-    element: <UpdateCoffee></UpdateCoffee>
+    path: "/updateCoffee/:id",
+    element: <UpdateCoffee></UpdateCoffee>,
+    loader: ({params})=> fetch(`http://localhost:5000/coffee/${params.id}`)
   }
 ]);
 

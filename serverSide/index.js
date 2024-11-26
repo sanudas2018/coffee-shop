@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // Mongodb connection
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 // client side live port
 const port = process.env.PORT || 5000;
@@ -33,29 +33,60 @@ async function run() {
     // Data Received for Client site
     const userCollection = client.db("coffeedb").collection("coffee");
     // STEP: 1(Post);
-    app.post("/add-coffee", async(req, res) => {
+    app.post("/add-coffee", async (req, res) => {
       const user = req.body;
       console.log("Client site Hitting for server side");
       const result = await userCollection.insertOne(user);
       res.send(result);
-      });
-
-
+    });
 
     // STEP: 2(Get);
-    app.get('/all-coffee', async(req, res)=>{
+    app.get("/all-coffee", async (req, res) => {
       const cursor = userCollection.find();
       const result = await cursor.toArray();
       res.send(result);
-      });
-
-
+    });
 
     // STEP: 3(Update);
+    app.get("/coffee/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const user = await userCollection.findOne(query);
+      res.send(user);
+    });
+
+    // Step-2
+    app.put("/updateCoffee/:id", async (req, res) => {
+      const id = req.params.id;
+      const coffee = req.body;
+      console.log(coffee);
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedUser = {
+        $set: {
+          name: coffee.name,
+          chef: coffee.chef,
+          supplier: coffee.supplier,
+          test: coffee.test,
+          category: coffee.category,
+          image: coffee.image,
+        },
+      };
+      const result = await userCollection.updateOne(
+        filter,
+        updatedUser,
+        options
+      );
+      res.send(result);
+    });
+
     // STEP: 4(Delete);
-
-
-
+    app.delete("/coffee/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await userCollection.deleteOne(query);
+      res.send(result);
+    });
 
     await client.db("admin").command({ ping: 1 });
     console.log(
